@@ -5,12 +5,16 @@
 // All rights reserved.  See copyright.h for copyright notice and limitation 
 // of liability and disclaimer of warranty provisions.
 
+
+
 #include "copyright.h"
 #include "system.h"
 #include <locale.h>
 #ifdef __GLIBC__
 #include <malloc.h>
 #endif
+
+#include <consoledriver.h>
 
 // This defines *all* of the global data structures used by Nachos.
 // These are all initialized and de-allocated by this file.
@@ -194,6 +198,11 @@ Initialize (int argc, char **argv)
 #endif
 }
 
+#ifdef CHANGED
+#ifdef USER_PROGRAM
+ConsoleDriver *consoledriver;
+#endif
+#endif
 //----------------------------------------------------------------------
 // Cleanup
 //      Nachos is halting.  De-allocate global data structures.
@@ -217,6 +226,8 @@ Cleanup ()
 	scheduler->Stop();
     if (interrupt)
 	interrupt->Enable();
+	
+	
 
 #ifdef NETWORK
     if (postOffice) {
@@ -231,6 +242,13 @@ Cleanup ()
 	machine = NULL;
     }
 #endif
+
+#ifdef USER_PROGRAM
+	if (consoledriver)
+		delete consoledriver;
+		consoledriver=NULL;
+#endif
+
 
 #ifdef FILESYS_NEEDED
     if (fileSystem) {

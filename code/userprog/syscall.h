@@ -31,6 +31,7 @@
 #define SC_Close	8
 #define SC_Fork		9
 #define SC_Yield	10
+#define SC_PutChar  11
 
 #ifdef IN_USER_MODE
 
@@ -69,6 +70,7 @@ SpaceId Exec (const char *name);
  * Return the exit status.
  */
 int Join (SpaceId id);
+
 
 
 /* File system operations: Create, Open, Read, Write, Close
@@ -129,6 +131,11 @@ void Fork (void (*func) ());
  * or not. 
  */
 void Yield ();
+
+#ifdef CHANGED
+
+void PutChar(char c);
+#endif CHANGED
 
 #endif // IN_USER_MODE
 
